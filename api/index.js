@@ -4,6 +4,8 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
+let transactionArr = []
+
 //#region
 app.use(
     express.urlencoded({
@@ -17,10 +19,21 @@ app.use(express.json({
 app.use(cors());
 //#endregion
 
-app.get('/prueba', (req,res) => {
-    res.send('Hola');
+//obtener
+app.get('/transactions', (req,res) => {
+    res.send(JSON.stringify(transactionArr));
 });
 
+//almacenar
+app.post('/transactions', (req,res) => {
+    let transaction = req.body;
+    transactionArr.push(transaction);
+    res.send(JSON.stringify("Saved"));
+    console.log(transactionArr);
+
+});
+
+//escuchar puerto
 app.listen(port, () => {
-    console.log(`ejecuandose en ${port}`);
+    console.log(`ejecuandose en http://localhost: ${port}`);
 });
